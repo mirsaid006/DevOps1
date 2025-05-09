@@ -1,0 +1,28 @@
+#!/bin/bash
+#first issue
+echo   "   Total CPU usage   "
+top -bn1 | grep "Cpu(s)" | awk '{print "Used:  " $2+$4  "%,  Idle: " $8  "%"}'
+#second issue
+echo  "    Total Memory usage "
+free -h | awk 'NR==2{printf "Used: %s / %s (%.2f%%) ", $3,$2,$3*100/$2 }'
+#third issue
+echo -e  "\n   Total Disk Usage  "
+df -h --total | awk '/total/ {printf "Used: %s /%s (%s)\n ", $3, $2, $5 }'
+#fourth issue
+echo -e "\n  Top 5 processes by CPU Usage  "
+ps -eo pid,comm%cpu --sort=-%cpu | head -n 6
+#fifth issue
+echo -e "\n  Top 5 processes by Memory Usage  "
+ps -eo pid,com%mem --sort=-%mem | head -n 6
+#sixth issue
+echo -e "\n   OS version  "
+cat /etc/os-release | grep PRETTY_NAME | cut -d=-f2 | tr -d ' " '
+#seventh issue
+echo -e "\n   Uptime  "
+uptime -p
+#eighth issue
+echo -e "\n  Load Average    "
+uptime | awk -F 'load average:' '{ print $2 }'
+#nineth issue
+echo -e "\n  Logged in users  "
+who
